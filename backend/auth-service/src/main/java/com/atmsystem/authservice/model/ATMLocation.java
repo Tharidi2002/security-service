@@ -30,6 +30,15 @@ public class ATMLocation {
     
     @Column(nullable = false)
     private String phoneNumber;
+
+    @Column(nullable = false)
+    private String technicalContactEmail;
+
+    @Column(nullable = false)
+    private String securityContactEmail;
+
+    @Column(nullable = false)
+    private String operationsContactEmail;
     
     @Column(nullable = false)
     private String city;

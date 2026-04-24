@@ -17,6 +17,7 @@ public interface SMSAlertRepository extends JpaRepository<SMSAlert, Long> {
     List<SMSAlert> findByProcessed(boolean processed);
     List<SMSAlert> findBySeverity(SMSAlert.Severity severity);
     List<SMSAlert> findByAlertType(SMSAlert.AlertType alertType);
+    List<SMSAlert> findByTimestampAfter(LocalDateTime timestamp);
     
     @Query("SELECT a FROM SMSAlert a WHERE a.timestamp BETWEEN :startDate AND :endDate ORDER BY a.timestamp DESC")
     List<SMSAlert> findByTimestampBetween(@Param("startDate") LocalDateTime startDate, 
