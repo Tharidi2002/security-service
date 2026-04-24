@@ -1,0 +1,11 @@
+{
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.home": "C:\\Program Files\\Java\\jdk-17",
+    "maven.executable.path": "C:\\Users\\USER\\.m2\\wrapper\\apache-maven-3.9.6\\bin\\mvn.cmd",
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "maven.terminal.useJavaHome": true,
+    "java.import.maven.enabled": true,
+    "java.import.gradle.enabled": false,
+    "java.server.launchMode": "Standard",
+    "java.debug.settings.onBuildBreakpoint": true
+}
