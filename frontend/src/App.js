@@ -1,93 +1,89 @@
-import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { Box, CssBaseline, Drawer, AppBar, Toolbar, Typography, IconButton, useTheme, useMediaQuery } from '@mui/material';
-import { Menu as MenuIcon, Security as SecurityIcon } from '@mui/icons-material';
-import Login from './components/Login';
-import Dashboard from './components/Dashboard';
-import Sidebar from './components/Sidebar';
-import NotificationCenter from './components/NotificationCenter';
-import { AuthProvider } from './contexts/AuthContext';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
 
-const drawerWidth = 240;
+// Import components
+import SideNav from './components/SideNav';
+import Dashboard from './Dashboard';
+import ATMLocationManager from './components/ATMLocationManager';
+
+// Define a dark theme for the application
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#38bdf8', // A vibrant blue
+    },
+    secondary: {
+      main: '#fbbf24', // A warm yellow
+    },
+    background: {
+      default: '#0f172a', // A very dark blue, almost black
+      paper: '#1e293b',   // A slightly lighter dark blue for cards/papers
+    },
+    text: {
+      primary: '#f1f5f9',
+      secondary: '#94a3b8',
+    },
+    error: {
+      main: '#f43f5e', // A vibrant red
+    },
+    warning: {
+      main: '#f97316', // A bright orange
+    },
+    info: {
+      main: '#4ade80',   // A cool green
+    },
+    success: {
+        main: '#22c55e', // A standard green for success
+    }
+  },
+  typography: {
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    h4: {
+      fontWeight: 600,
+    },
+    h6: {
+        fontWeight: 600,
+    }
+  },
+});
 
 function App() {
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
   return (
-    <AuthProvider>
-      <Box sx={{ display: 'flex' }}>
-        <CssBaseline />
-        <AppBar
-          position="fixed"
-          sx={{
-            width: { md: `calc(100% - ${drawerWidth}px)` },
-            ml: { md: `${drawerWidth}px` },
-            backgroundColor: '#1976d2',
-          }}
-        >
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { md: 'none' } }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <SecurityIcon sx={{ mr: 2 }} />
-            <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-              ATM Security System
-            </Typography>
-            <NotificationCenter />
-          </Toolbar>
-        </AppBar>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <Router>
+        <Box sx={{ display: 'flex' }}>
+          {/* The SideNav will be a permanent part of the layout */}
+          <SideNav />
 
-        <Box
-          component="nav"
-          sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
-        >
-          <Drawer
-            variant={isMobile ? 'temporary' : 'permanent'}
-            open={isMobile ? mobileOpen : true}
-            onClose={handleDrawerToggle}
-            ModalProps={{
-              keepMounted: true,
-            }}
+          {/* Main content area */}
+          <Box
+            component="main"
             sx={{
-              '& .MuiDrawer-paper': {
-                boxSizing: 'border-box',
-                width: drawerWidth,
-              },
+              flexGrow: 1,
+              bgcolor: 'background.default',
+              p: 3,
+              width: `calc(100% - 240px)` // Adjust width to account for the drawer
             }}
           >
-            <Sidebar />
-          </Drawer>
-        </Box>
+            {/* The top toolbar spacer is only needed if you have a top AppBar, which we don't */}
+            {/* <Toolbar /> */}
 
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            p: 3,
-            width: { md: `calc(100% - ${drawerWidth}px)` },
-            mt: 8,
-          }}
-        >
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/" element={<Navigate to="/dashboard" />} />
-          </Routes>
+            <Routes>
+              {/* Route for the main dashboard */}
+              <Route path="/" element={<Dashboard />} />
+              
+              {/* Route for the ATM Location Management page */}
+              <Route path="/atms" element={<ATMLocationManager />} />
+            </Routes>
+          </Box>
         </Box>
-      </Box>
-    </AuthProvider>
+      </Router>
+    </ThemeProvider>
   );
 }
 
